@@ -1,0 +1,50 @@
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.product-list-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.product-list-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.product-list-row td {
+  border-bottom-width: 0;
+}
+
+.product-list-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.product-list-diagram {
+  min-width: 5rem;
+  padding: 0.5rem;
+  font-weight: lighter;
+  margin: 0.5rem 0;
+  height: 6.5rem;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.product-list-description {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  width: 40%;
+}
+
+.product-list-group-btn {
+  display: flex;
+  margin-top: 1rem;
+  gap: 1rem;
+}
