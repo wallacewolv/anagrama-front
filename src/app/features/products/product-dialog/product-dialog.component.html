@@ -1,12 +1,12 @@
-<mat-dialog-content *ngIf="data.product" class="mat-typography">
-  <div class="dialog-content">
+<mat-dialog-content *ngIf="productForm" class="mat-typography">
+  <div [formGroup]="productForm" class="dialog-content">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input [(ngModel)]="data.product.title" matInput [disabled]="!isTypeToEqualEdit">
+      <input formControlName="title" matInput>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-select [(ngModel)]="data.product.category" [disabled]="!isTypeToEqualEdit">
+      <mat-select formControlName="category">
         @for (category of productCategories; track category) {
         <mat-option [value]="category.value">{{ category.viewValue }}</mat-option>
         }
@@ -14,23 +14,22 @@
     </mat-form-field>
 
     <div class="img-dialog-content">
-      <img class="img-dialog" [src]="data.product.image" alt="Image to product">
+      <img class="img-dialog" [src]="productForm.get('image')?.value" alt="Image to product">
 
       <mat-form-field appearance="outline" class="img-link">
         <mat-label>Link to image</mat-label>
-        <input [(ngModel)]="data.product.image" matInput [disabled]="!isTypeToEqualEdit">
+        <input formControlName="image" matInput>
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline">
       <mat-label>Price</mat-label>
-      <input [(ngModel)]="data.product.price" matInput [disabled]="!isTypeToEqualEdit">
+      <input formControlName="price" matInput>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea class="textarea-dialog" [(ngModel)]="data.product.description" matInput
-        [disabled]="!isTypeToEqualEdit"></textarea>
+      <textarea class="textarea-dialog" formControlName="description" matInput></textarea>
     </mat-form-field>
   </div>
 </mat-dialog-content>
