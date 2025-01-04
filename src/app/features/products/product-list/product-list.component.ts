@@ -1,4 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -7,7 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 
 import { ProductService } from '../../../core/services/product.service';
 import { TypeSelectedEnum } from '../../../shared/enums/type-selected.enum';
-import { Product } from '../../../shared/models/product.model';
+import { Product, ProductDialogDataInterface } from '../../../shared/models/product.model';
 import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
@@ -28,6 +29,7 @@ import { ProductDialogComponent } from '../product-dialog/product-dialog.compone
     MatIconModule,
     TruncatePipe,
     CapitalizePipe,
+    CurrencyPipe,
     ProductDialogComponent,
   ],
   templateUrl: './product-list.component.html',
@@ -43,25 +45,18 @@ export class ProductListComponent implements OnInit {
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement?: Product | null;
 
-  productSelected?: Product;
-  typeSelected?: TypeSelectedEnum;
+  get viewType() {
+    return TypeSelectedEnum.VIEW;
+  }
 
-  typeSelectedEnum = TypeSelectedEnum;
+  get editType() {
+    return TypeSelectedEnum.EDIT;
+  }
 
   constructor(
     private readonly productService: ProductService,
-    public dialog: MatDialog,
+    public readonly dialog: MatDialog,
   ) { }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ProductDialogComponent, {
-      data: { title: 'test' } as Product,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
@@ -74,8 +69,11 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  editOrViewProduct(product: Product, type: TypeSelectedEnum) {
-    this.productSelected = product;
-    this.typeSelected = type;
+  openDialog(product: Product, type: TypeSelectedEnum) {
+    this.dialog.open(ProductDialogComponent, {
+      data: { product, type } as ProductDialogDataInterface,
+      height: '400px',
+      width: '600px',
+    });
   }
 }

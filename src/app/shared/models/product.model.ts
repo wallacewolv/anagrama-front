@@ -1,7 +1,9 @@
+import { TypeSelectedEnum } from "../enums/type-selected.enum";
+
 export interface Product {
   id: number;
   title: string;
-  price: number;
+  price: any;
   description: string;
   category: string;
   image: string;
@@ -11,4 +13,9 @@ export interface Product {
 export interface Rating {
   rate: number;
   count: number;
+}
+
+export interface ProductDialogDataInterface {
+  product: Product;
+  type: TypeSelectedEnum;
 }
