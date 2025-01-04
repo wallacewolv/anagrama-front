@@ -7,7 +7,7 @@
 
     <mat-form-field appearance="outline">
       <mat-select formControlName="category">
-        @for (category of productCategories; track category) {
+        @for (category of data.categories; track category) {
         <mat-option [value]="category.value">{{ category.viewValue }}</mat-option>
         }
       </mat-select>

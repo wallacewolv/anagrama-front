@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,10 +11,6 @@ import { ProductService } from '../../../core/services/product.service';
 import { TypeSelectedEnum } from '../../../shared/enums/type-selected.enum';
 import { ProductDialogDataInterface } from '../../../shared/models/product.model';
 
-interface ProductSelectValues {
-  value: string;
-  viewValue: string;
-}
 @Component({
   selector: 'app-product-dialog',
   standalone: true,
@@ -34,13 +30,6 @@ interface ProductSelectValues {
   styleUrl: './product-dialog.component.scss',
 })
 export class ProductDialogComponent implements AfterViewInit {
-  productCategories: Array<ProductSelectValues> = [
-    { value: `men's clothing`, viewValue: `men's clothing` },
-    { value: `jewelery`, viewValue: `jewelery` },
-    { value: `electronics`, viewValue: `electronics` },
-    { value: `women's clothing`, viewValue: `women's clothing` },
-  ];
-
   productForm?: UntypedFormGroup;
 
   get isTypeToEqualEdit() {

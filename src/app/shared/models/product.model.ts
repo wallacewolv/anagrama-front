@@ -18,4 +18,10 @@ export interface Rating {
 export interface ProductDialogDataInterface {
   product: Product;
   type: TypeSelectedEnum;
+  categories: Array<ProductSelectValues>;
+}
+
+export interface ProductSelectValues {
+  value: string;
+  viewValue: string;
 }

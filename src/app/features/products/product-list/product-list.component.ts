@@ -8,7 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 
 import { ProductService } from '../../../core/services/product.service';
 import { TypeSelectedEnum } from '../../../shared/enums/type-selected.enum';
-import { Product, ProductDialogDataInterface } from '../../../shared/models/product.model';
+import { Product, ProductDialogDataInterface, ProductSelectValues } from '../../../shared/models/product.model';
 import { CapitalizePipe } from '../../../shared/pipes/capitalize.pipe';
 import { TruncatePipe } from '../../../shared/pipes/truncate.pipe';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
@@ -36,7 +36,8 @@ import { ProductDialogComponent } from '../product-dialog/product-dialog.compone
   styleUrl: './product-list.component.scss',
   providers: [
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: {} }
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    CapitalizePipe,
   ]
 })
 export class ProductListComponent implements OnInit {
@@ -44,6 +45,7 @@ export class ProductListComponent implements OnInit {
   columnsToDisplay = ['title', 'category', 'price'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement?: Product | null;
+  productCategories?: Array<ProductSelectValues>;
 
   get viewType() {
     return TypeSelectedEnum.VIEW;
@@ -55,13 +57,19 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private readonly productService: ProductService,
+    private readonly capitalizePipe: CapitalizePipe,
     public readonly dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
     this.productService.getAllProducts().subscribe({
       next: (response) => {
+        for (let i = 0; i < response.length; i++) {
+          response[i].category = this.capitalizePipe.transform(response[i].category);
+        }
+
         this.dataSource = response;
+        this.productCategories = this.changeCategories(response);
       },
       error: (error) => {
         console.error(error);
@@ -69,9 +77,22 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  changeCategories(products: Array<Product>): Array<ProductSelectValues> {
+    const categories = products.map(({ category }) => ({ value: category, viewValue: this.capitalizePipe.transform(category) }));
+
+    return categories.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.value === item.value && t.viewValue === item.viewValue),
+    );
+  }
+
   openDialog(product: Product, type: TypeSelectedEnum) {
     this.dialog.open(ProductDialogComponent, {
-      data: { product, type } as ProductDialogDataInterface,
+      data: {
+        product,
+        type,
+        categories: this.productCategories,
+      } as ProductDialogDataInterface,
       height: '400px',
       width: '600px',
     });
