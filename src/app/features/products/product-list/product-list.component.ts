@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 
+import { AlertService } from '../../../core/services/alert.service';
 import { ProductService } from '../../../core/services/product.service';
 import { TypeSelectedEnum } from '../../../shared/enums/type-selected.enum';
 import { Product, ProductDialogDataInterface, ProductSelectValues } from '../../../shared/models/product.model';
@@ -58,6 +59,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     private readonly productService: ProductService,
     private readonly capitalizePipe: CapitalizePipe,
+    private readonly alertService: AlertService,
     public readonly dialog: MatDialog,
   ) { }
 
@@ -70,9 +72,11 @@ export class ProductListComponent implements OnInit {
 
         this.dataSource = response;
         this.productCategories = this.changeCategories(response);
+
+        this.alertService.sendingSuccessAlert('Products loaded successfully!');
       },
       error: (error) => {
-        console.error(error);
+        this.alertService.sendingErrorAlert('Error loading products!');
       }
     });
   }

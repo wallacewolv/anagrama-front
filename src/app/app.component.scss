@@ -1,0 +1,41 @@
+::ng-deep .snackbar-success {
+  border-radius: 5px;
+  outline-offset: 2px;
+  outline: 3px solid #b8e98d;
+  --mdc-snackbar-container-color: #b8e98d;
+  --mdc-snackbar-supporting-text-color: #3e3d3d;
+
+  button {
+    span.mdc-button__label {
+      color: #3e3d3d;
+    }
+  }
+}
+
+::ng-deep .snackbar-error {
+  border-radius: 5px;
+  outline-offset: 2px;
+  outline: 3px solid #de857f;
+  --mdc-snackbar-container-color: #de857f;
+  --mdc-snackbar-supporting-text-color: #3e3d3d;
+
+  button {
+    span.mdc-button__label {
+      color: #3e3d3d;
+    }
+  }
+}
+
+::ng-deep .snackbar-warning {
+  border-radius: 5px;
+  outline-offset: 2px;
+  outline: 3px solid #ecca97;
+  --mdc-snackbar-container-color: #ecca97;
+  --mdc-snackbar-supporting-text-color: #3e3d3d;
+
+  button {
+    span.mdc-button__label {
+      color: #3e3d3d;
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
+import { AlertService } from '../../../core/services/alert.service';
 import { ProductService } from '../../../core/services/product.service';
 import { TypeSelectedEnum } from '../../../shared/enums/type-selected.enum';
 import { ProductDialogDataInterface } from '../../../shared/models/product.model';
@@ -38,6 +39,7 @@ export class ProductDialogComponent implements AfterViewInit {
 
   constructor(
     private readonly productService: ProductService,
+    private readonly alertService: AlertService,
     private formBuilder: FormBuilder,
     public readonly dialogRef: MatDialogRef<ProductDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ProductDialogDataInterface,
@@ -73,9 +75,10 @@ export class ProductDialogComponent implements AfterViewInit {
     this.productService.updateProduct(product).subscribe(({
       next: () => {
         this.dialogRef.close();
+        this.alertService.sendingSuccessAlert('Product updated successfully!');
       },
       error: (error) => {
-        console.error(error);
+        this.alertService.sendingErrorAlert('Error updating product!');
       }
     }));
   }
